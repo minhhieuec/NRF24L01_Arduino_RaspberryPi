@@ -1,0 +1,67 @@
+var ImageLoad6 = 
+[
+['http://s.click.aliexpress.com/e/ubMFqVJ', 	'http://acoptex.com/_tpl/default/b4/1.png', 	''	],		//  ['URL to linked page', 'URL to image', 'Caption under picture']	//
+['http://s.click.aliexpress.com/e/3BUVJIu', 	'http://acoptex.com/_tpl/default/b4/2.png', 	''	],		//  The caption is not required and may be left blank like this:		//
+['http://s.click.aliexpress.com/e/Njimmia', 	'http://acoptex.com/_tpl/default/b4/3.png', 	''	],		//  ['URL to linked page', 'URL to image', '']							//
+['http://s.click.aliexpress.com/e/EYFe6ai', 	'http://acoptex.com/_tpl/default/b4/4.png', ''	],		//  Add as many images as you like seperated by commmas					//
+['http://s.click.aliexpress.com/e/3vBiUbm', 	'http://acoptex.com/_tpl/default/b4/5.png', 	''	],		//  Almost ALL errors are caused by the url or path being wrong 		//
+['http://s.click.aliexpress.com/e/JuVbAAa', 	 'http://acoptex.com/_tpl/default/b4/6.png',''	]		//  The LAST image declaration does NOT have a comma after it			//
+];
+
+
+var ImageCount6		= 6;			//  *****  Change this to the total number of images loaded above  ***** 		//	
+var ImageDelay6		= 6000;			//  *****  Set this to the delay interval desired.  5000 = 5 seconds.			// 
+var LinkTarget6		= "_self"		//  *****  Defines where you want linked page to open. _self, _blank, _top, etc	//
+var ImageIndex6		= 0;			//  DO NOT ALTER	//
+var FirstLoad6 		= 0;			//  DO NOT ALTER	//
+var QuickStartID6 	= 0;  			//  DO NOT ALTER	//
+var htmlString6 		= ""			//  DO NOT ALTER 	//
+var randomnumber6	= 0;			//  DO NOT ALTER	//
+
+//  This function rotates the banner  //
+function ImageChange6()
+
+{		
+
+htmlString6 = '<center>';
+htmlString6 = htmlString6 + '<font face = "Verdana" size="2">';		//  Font and Font Size for caption may be changed here	//
+htmlString6 = htmlString5 +'<a target="';
+htmlString6 = htmlString6 + LinkTarget6;
+htmlString6 = htmlString6 + '" href="';
+htmlString6 = htmlString6 + ImageLoad6[ImageIndex6][0];
+htmlString6 = htmlString6 + '"><img border="0" src="';				//  Image border size may be changed here				//	
+htmlString6 = htmlString6 + ImageLoad6[ImageIndex6][1];
+htmlString6 = htmlString6 + '"></a><br>';
+htmlString6 = htmlString6 + ImageLoad6[ImageIndex6][2];
+htmlString6 = htmlString6 + '</font>';
+htmlString6 = htmlString6 + '</center>';		
+
+document.getElementById('Image16').innerHTML = htmlString6; 				
+
+ImageIndex6 = Math.floor(Math.random()*ImageCount6);																				
+
+if(FirstLoad6 == 0)						//  Determins if this is the first time function has run.   // 
+{
+SlowFinish6();
+}
+
+}
+//  End Funtion  //
+
+//  This function ensures first banner is displayted without a delay  //
+function  QuickStart6()
+{
+QuickStartID6=setInterval("ImageChange6()", 1000);
+}
+//  End Funtion  //																		
+
+//  This function sets display rate to user defined speed  //
+function SlowFinish6()
+{
+clearInterval(QuickStartID6);
+FirstLoad6 = 1;
+setInterval("ImageChange6()", ImageDelay6);	 
+}
+//  End Funtion  //
+
+QuickStart6()

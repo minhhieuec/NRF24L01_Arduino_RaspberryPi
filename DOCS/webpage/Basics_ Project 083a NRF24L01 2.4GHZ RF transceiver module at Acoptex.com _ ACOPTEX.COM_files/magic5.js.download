@@ -1,0 +1,67 @@
+var ImageLoad4 = 
+[
+['http://s.click.aliexpress.com/e/iuJ2nM3', 	'http://acoptex.com/_tpl/default/a3/1.png', 	''	],		//  ['URL to linked page', 'URL to image', 'Caption under picture']	//
+['http://s.click.aliexpress.com/e/B62NbUz', 	        'http://acoptex.com/_tpl/default/a3/2.png', 	''	],		//  The caption is not required and may be left blank like this:		//
+['http://s.click.aliexpress.com/e/RBAiy7m', 	'http://acoptex.com/_tpl/default/a3/3.png', 	''	],		//  ['URL to linked page', 'URL to image', '']							//
+['http://s.click.aliexpress.com/e/yNByFy3', 	        'http://acoptex.com/_tpl/default/a3/4.png', ''	],		//  Add as many images as you like seperated by commmas					//
+['http://s.click.aliexpress.com/e/zByjaII', 	'http://acoptex.com/_tpl/default/a3/5.png', 	''	],		//  Almost ALL errors are caused by the url or path being wrong 		//
+['http://s.click.aliexpress.com/e/vNBMjeQ', 	        'http://acoptex.com/_tpl/default/a3/6.png',''	]		//  The LAST image declaration does NOT have a comma after it			//
+];
+
+
+var ImageCount4		= 6;			//  *****  Change this to the total number of images loaded above  ***** 		//	
+var ImageDelay4		= 9000;			//  *****  Set this to the delay interval desired.  5000 = 5 seconds.			// 
+var LinkTarget4		= "_self"		//  *****  Defines where you want linked page to open. _self, _blank, _top, etc	//
+var ImageIndex4		= 0;			//  DO NOT ALTER	//
+var FirstLoad4 		= 0;			//  DO NOT ALTER	//
+var QuickStartID4 	= 0;  			//  DO NOT ALTER	//
+var htmlString4 		= ""			//  DO NOT ALTER 	//
+var randomnumber4	= 0;			//  DO NOT ALTER	//
+
+//  This function rotates the banner  //
+function ImageChange4()
+
+{		
+
+htmlString4 = '<center>';
+htmlString4 = htmlString4 + '<font face = "Verdana" size="2">';		//  Font and Font Size for caption may be changed here	//
+htmlString4 = htmlString4 +'<a target="';
+htmlString4 = htmlString4 + LinkTarget4;
+htmlString4 = htmlString4 + '" href="';
+htmlString4 = htmlString4 + ImageLoad4[ImageIndex4][0];
+htmlString4 = htmlString4 + '"><img border="0" src="';				//  Image border size may be changed here				//	
+htmlString4 = htmlString4 + ImageLoad4[ImageIndex4][1];
+htmlString4 = htmlString4 + '"></a><br>';
+htmlString4 = htmlString4 + ImageLoad4[ImageIndex4][2];
+htmlString4 = htmlString4 + '</font>';
+htmlString4 = htmlString4 + '</center>';		
+
+document.getElementById('Image14').innerHTML = htmlString4; 				
+
+ImageIndex4 = Math.floor(Math.random()*ImageCount4);																				
+
+if(FirstLoad4 == 0)						//  Determins if this is the first time function has run.   // 
+{
+SlowFinish4();
+}
+
+}
+//  End Funtion  //
+
+//  This function ensures first banner is displayted without a delay  //
+function  QuickStart4()
+{
+QuickStartID4=setInterval("ImageChange4()", 1000);
+}
+//  End Funtion  //																		
+
+//  This function sets display rate to user defined speed  //
+function SlowFinish4()
+{
+clearInterval(QuickStartID4);
+FirstLoad4 = 1;
+setInterval("ImageChange4()", ImageDelay4);	 
+}
+//  End Funtion  //
+
+QuickStart4()

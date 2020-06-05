@@ -1,0 +1,68 @@
+var ImageLoad5 = 
+[
+['http://s.click.aliexpress.com/e/c10Xrhxa', 	'http://acoptex.com/_tpl/default/b3/1.png', 	''	],		//  ['URL to linked page', 'URL to image', 'Caption under picture']	//
+['http://s.click.aliexpress.com/e/blSVj0FW', 	        'http://acoptex.com/_tpl/default/b3/2.png', 	''	],		//  The caption is not required and may be left blank like this:		//
+['http://s.click.aliexpress.com/e/bpLWXi6k', 	'http://acoptex.com/_tpl/default/b3/3.png', 	''	],		//  ['URL to linked page', 'URL to image', '']							//
+['http://s.click.aliexpress.com/e/Jizx8UY', 	        'http://acoptex.com/_tpl/default/b3/4.png', ''	],		//  Add as many images as you like seperated by commmas					//
+['http://s.click.aliexpress.com/e/PhT6iWk', 	'http://acoptex.com/_tpl/default/b3/5.png', 	''	],		//  Almost ALL errors are caused by the url or path being wrong 		//
+['http://s.click.aliexpress.com/e/cY8KG1fS', 	        'http://acoptex.com/_tpl/default/b3/6.png',''	],		//  The LAST image declaration does NOT have a comma after it			//
+['http://s.click.aliexpress.com/e/beGdKfSo', 	        'http://acoptex.com/_tpl/default/b3/5.png',''	]		//  The LAST image declaration does NOT have a comma after it			//
+];
+
+
+var ImageCount5		= 7;			//  *****  Change this to the total number of images loaded above  ***** 		//	
+var ImageDelay5		= 7000;			//  *****  Set this to the delay interval desired.  5000 = 5 seconds.			// 
+var LinkTarget5		= "_self"		//  *****  Defines where you want linked page to open. _self, _blank, _top, etc	//
+var ImageIndex5		= 0;			//  DO NOT ALTER	//
+var FirstLoad5 		= 0;			//  DO NOT ALTER	//
+var QuickStartID5 	= 0;  			//  DO NOT ALTER	//
+var htmlString5 		= ""			//  DO NOT ALTER 	//
+var randomnumber5	= 0;			//  DO NOT ALTER	//
+
+//  This function rotates the banner  //
+function ImageChange5()
+
+{		
+
+htmlString5 = '<center>';
+htmlString5 = htmlString5 + '<font face = "Verdana" size="2">';		//  Font and Font Size for caption may be changed here	//
+htmlString5 = htmlString5 +'<a target="';
+htmlString5 = htmlString5 + LinkTarget5;
+htmlString5 = htmlString5 + '" href="';
+htmlString5 = htmlString5 + ImageLoad5[ImageIndex5][0];
+htmlString5 = htmlString5 + '"><img border="0" src="';				//  Image border size may be changed here				//	
+htmlString5 = htmlString5 + ImageLoad5[ImageIndex5][1];
+htmlString5 = htmlString5 + '"></a><br>';
+htmlString5 = htmlString5 + ImageLoad5[ImageIndex5][2];
+htmlString5 = htmlString5 + '</font>';
+htmlString5 = htmlString5 + '</center>';		
+
+document.getElementById('Image15').innerHTML = htmlString5; 				
+
+ImageIndex5 = Math.floor(Math.random()*ImageCount5);																				
+
+if(FirstLoad5 == 0)						//  Determins if this is the first time function has run.   // 
+{
+SlowFinish5();
+}
+
+}
+//  End Funtion  //
+
+//  This function ensures first banner is displayted without a delay  //
+function  QuickStart5()
+{
+QuickStartID5=setInterval("ImageChange5()", 1000);
+}
+//  End Funtion  //																		
+
+//  This function sets display rate to user defined speed  //
+function SlowFinish5()
+{
+clearInterval(QuickStartID5);
+FirstLoad5 = 1;
+setInterval("ImageChange5()", ImageDelay5);	 
+}
+//  End Funtion  //
+
+QuickStart5()
