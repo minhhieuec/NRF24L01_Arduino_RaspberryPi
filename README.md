@@ -1,5 +1,15 @@
 # NRF24L01_Arduino_RaspberryPi
 
+- [NRF24L01_Arduino_RaspberryPi](#nrf24l01-arduino-raspberrypi)
+  * [NRF24L01](#nrf24l01)
+  * [Arduino](#arduino)
+    + [Kết nối dây và test module RF](#k-t-n-i-d-y-v--test-module-rf)
+  * [Raspberry Pi](#raspberry-pi)
+    + [Kết nối Wifi và bật SSH không cần màn hình](#k-t-n-i-wifi-v--b-t-ssh-kh-ng-c-n-m-n-h-nh)
+    + [Cài nodejs](#c-i-nodejs)
+    + [Cài đặt thư viện NRF24L01 trên Raspberry Pi](#c-i---t-th--vi-n-nrf24l01-tr-n-raspberry-pi)
+    + [Kết nối dây](#k-t-n-i-d-y)
+
 ## NRF24L01
 
 ![alt text](DOCS/NRF24L01_pro2_acoptex.jpg)
@@ -44,7 +54,7 @@ network={
 }
 ```
 
-reference: https://desertbot.io/blog/headless-raspberry-pi-3-bplus-ssh-wifi-setup
+Reference: https://desertbot.io/blog/headless-raspberry-pi-3-bplus-ssh-wifi-setup
 
 ### Cài nodejs
 
@@ -72,4 +82,53 @@ Step 5: Check If Everything Is Installed Ok
 
  `npm -v`
 
-reference: https://www.instructables.com/id/Install-Nodejs-and-Npm-on-Raspberry-Pi/
+Reference: https://www.instructables.com/id/Install-Nodejs-and-Npm-on-Raspberry-Pi/
+
+### Kết nối dây Raspberry với RF module
+
+| PIN	NRF24L01	| RPI	RPi -P1 Connector |
+| ------------- | --------------------- |
+| 1 GND	       | rpi-gnd	(25) |
+| 2 VCC	      | rpi-3v3	(17) |
+| 3 CE	       | rpi-gpio22	(15) |
+| 4 CSN	       | rpi-gpio8	(24) |
+| 5 SCK	       | rpi-sckl	(23) |
+| 6 MOSI	     | rpi-mosi	(19) |
+| 7 MISO	     | rpi-miso	(21) |
+| 8 IRQ		     |  not connected  / optional |
+
+### Test Truyền nhận với Arduino
+
+Nạp code RX_GettingStarted cho arduino.
+
+Cài thư viện c cho NRF24L01 trên Raspberry Pi (https://tmrh20.github.io/RF24/Linux.html):
+
+1. `wget http://tmrh20.github.io/RF24Installer/RPi/install.sh`
+2. `chmod +x install.sh`
+3. `./install.sh`
+4. `cd rf24libs/RF24/examples_linux`
+5. `nano gettingstarted.cpp`
+6. `make`
+7. `sudo ./gettingstarted`
+
+![alt text](DOCS/test_rf_arduino_raspberry.png)
+
+Reference: 
+
+- https://tmrh20.github.io/RF24/Linux.html
+
+- https://gist.github.com/natevw/5789019
+
+### Cài đặt thư viện NRF24L01 trên Raspberry Pi
+
+`npm install pi-spi`
+
+`npm install nrf24`
+
+References:
+
+- https://github.com/ludiazv/node-nrf24
+
+- https://github.com/natevw/pi-spi
+
+- https://github.com/natevw/node-rf24
