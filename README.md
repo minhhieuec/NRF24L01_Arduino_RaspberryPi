@@ -56,34 +56,6 @@ network={
 
 Reference: https://desertbot.io/blog/headless-raspberry-pi-3-bplus-ssh-wifi-setup
 
-### Cài nodejs
-
-Step 1: Detect What Version of Node.js You Need
-
-`uname -m`
-
-Step 2: Download Node.JS Linux Binaries for ARM
-
-`wget https://nodejs.org/dist/v8.9.0/node-v8.9.0-linux-armv7l.tar.gz`
-
-Step 3: Extract the Archive
-
-`tar -xzf node-v8.9.0-linux-armv7l.tar.gz`
-
-Step 4: Copy Node to /usr/local
-
-`cd node-v8.9.0-linux-armv7l`
-
-`sudo cp -R * /usr/local/`
-
-Step 5: Check If Everything Is Installed Ok
-
- `node -v`
-
- `npm -v`
-
-Reference: https://www.instructables.com/id/Install-Nodejs-and-Npm-on-Raspberry-Pi/
-
 ### Kết nối dây Raspberry với RF module
 
 | PIN	NRF24L01	| RPI	RPi -P1 Connector |
@@ -96,6 +68,8 @@ Reference: https://www.instructables.com/id/Install-Nodejs-and-Npm-on-Raspberry-
 | 6 MOSI	     | rpi-mosi	(19) |
 | 7 MISO	     | rpi-miso	(21) |
 | 8 IRQ		     |  not connected  / optional |
+
+Reference: https://pinout.xyz/pinout/spi
 
 ### Test Truyền nhận với Arduino
 
@@ -119,16 +93,57 @@ Reference:
 
 - https://gist.github.com/natevw/5789019
 
+
+### Bật tính năng SPI
+
+Bỏ command dòng `dtparam=spi=on` trong file `/boot/config.txt` sau đó khởi động lại Raspberry Pi.
+
+run `ls /dev/spi*` để kiểm tra.
+
+### Cài nodejs
+
+Step 1: Detect What Version of Node.js You Need
+
+`uname -m`
+
+Step 2: Download Node.JS Linux Binaries for ARM
+
+`wget https://nodejs.org/dist/v12.18.0/node-v12.18.0-linux-armv7l.tar.xz`
+
+Step 3: Extract the Archive
+
+`tar -xz node-v12.18.0-linux-armv7l.tar.xz`
+
+Step 4: Copy Node to /usr/local
+
+`cd node-v12.18.0-linux-armv7l`
+
+`sudo cp -R * /usr/local/`
+
+Step 5: Check If Everything Is Installed Ok
+
+ `node -v`
+
+ `npm -v`
+
+References:
+
+- https://www.instructables.com/id/Install-Nodejs-and-Npm-on-Raspberry-Pi/
+
+- https://medium.com/@bipul.k.kuri/upgrade-node-js-npm-in-raspbian-on-raspberry-pi-f1bcdaa23db5
+
+- https://linuxize.com/post/how-to-install-node-js-on-raspberry-pi/
+
+- install node-gyp: https://www.npmjs.com/package/node-gyp
+
 ### Cài đặt thư viện NRF24L01 trên Raspberry Pi
 
-`npm install pi-spi`
+`npm install nrf24 --save`
 
-`npm install nrf24`
+`cd node_modules/nrf24/examples`
+
+`sudo node GettingStarted.js`
 
 References:
 
 - https://github.com/ludiazv/node-nrf24
-
-- https://github.com/natevw/pi-spi
-
-- https://github.com/natevw/node-rf24
