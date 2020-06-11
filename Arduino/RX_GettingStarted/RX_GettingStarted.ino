@@ -21,6 +21,13 @@
 #include "RF24.h"
 #include "printf.h"
 
+#define LED_STT_PIN 7
+#define Led_Status_On()   digitalWrite(LED_STT_PIN, HIGH)
+#define Led_Status_Off()  digitalWrite(LED_STT_PIN, LOW)
+
+static char send_payload[32] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ789012";
+char tmp_buf[32];
+
 //
 // Hardware configuration
 //
@@ -54,6 +61,9 @@ const char* role_friendly_name[] = { "invalid", "Ping out", "Pong back"};
 // The role of the current running sketch
 role_e role = role_pong_back;
 
+unsigned long last_time = 0;
+bool led_stt = false;
+
 void setup(void)
 {
   //
@@ -61,6 +71,8 @@ void setup(void)
   //
 
   Serial.begin(57600);
+  pinMode(LED_STT_PIN, OUTPUT);
+  digitalWrite(LED_STT_PIN, LOW);
   printf_begin();
   printf("\n\rRF24/examples/GettingStarted/\n\r");
   printf("ROLE: %s\n\r",role_friendly_name[role]);
@@ -74,6 +86,10 @@ void setup(void)
 
   // optionally, increase the delay between retries & # of retries
   radio.setRetries(15,15);
+
+  radio.setPayloadSize(32);
+
+  radio.setDataRate(RF24_2MBPS);
 
   // optionally, reduce the payload size.  seems to
   // improve reliability
@@ -114,6 +130,8 @@ void setup(void)
   role = role_pong_back;
   radio.openWritingPipe(pipes[1]);
   radio.openReadingPipe(1,pipes[0]);
+
+  last_time = millis();
 }
 
 void loop(void)
@@ -121,6 +139,11 @@ void loop(void)
   //
   // Ping out role.  Repeatedly send the current time
   //
+
+  if((millis() - last_time) > 5000 && led_stt){
+    Led_Status_Off();
+    led_stt = false;
+  }
 
   if (role == role_ping_out)
   {
@@ -181,21 +204,25 @@ void loop(void)
       while (!done)
       {
         // Fetch the payload, and see if this was the last one.
-        done = radio.read( &got_time, sizeof(unsigned long) );
+        done = radio.read(&got_time, sizeof(unsigned long));
 
         // Spew it
         printf("Got payload %lu...",got_time);
 
-	// Delay just a little bit to let the other unit
-	// make the transition to receiver
-	delay(20);
+      	// Delay just a little bit to let the other unit
+      	// make the transition to receiver
+      	delay(20);
       }
+
+      last_time = millis();
+      Led_Status_On();
+      led_stt = true;
 
       // First, stop listening so we can talk
       radio.stopListening();
 
       // Send the final one back.
-      radio.write( &got_time, sizeof(unsigned long) );
+      radio.write( &send_payload, 32);
       printf("Sent response.\n\r");
 
       // Now, resume listening so we catch the next packets.

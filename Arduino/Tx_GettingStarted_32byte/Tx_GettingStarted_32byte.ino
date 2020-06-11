@@ -25,6 +25,8 @@
 // Hardware configuration
 //
 
+#define LED_STT_PIN 7
+
 // Set up nRF24L01 radio on SPI bus plus pins 9 & 10 
 
 RF24 radio(8,10);
@@ -50,7 +52,7 @@ typedef enum { role_ping_out = 1, role_pong_back } role_e;
 const char* role_friendly_name[] = { "invalid", "Ping out", "Pong back"};
 
 // The role of the current running sketch
-role_e role = role_pong_back;
+role_e role = role_ping_out;
 
 void setup(void)
 {
@@ -59,6 +61,7 @@ void setup(void)
   //
 
   Serial.begin(57600);
+  pinMode(LED_STT_PIN, OUTPUT);
   printf_begin();
   printf("\n\rRF24/examples/GettingStarted/\n\r");
   printf("ROLE: %s\n\r",role_friendly_name[role]);
@@ -77,7 +80,7 @@ void setup(void)
   // improve reliability
   radio.setPayloadSize(32);
 
-radio.setDataRate(RF24_2MBPS);
+  radio.setDataRate(RF24_2MBPS);
   //
   // Open pipes to other nodes for communication
   //
@@ -113,6 +116,12 @@ radio.setDataRate(RF24_2MBPS);
 
 static char send_payload[32] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ789012";
 char tmp_buf[32];
+
+#define SEND_SUCCESS  0
+#define SEND_TIMEOUT  1
+#define SEND_ERR      2
+#define SEND_NACK     3
+uint8_t stt = SEND_SUCCESS;
 
 void loop(void)
 {
@@ -150,6 +159,7 @@ void loop(void)
     if ( timeout )
     {
       printf("Failed, response timed out.\n\r");
+      stt = SEND_TIMEOUT;
     }
     else
     {
@@ -160,7 +170,12 @@ void loop(void)
 
       // Spew it
       printf("Got response %lu, round-trip delay: %lu\n\r",got_time,millis()-got_time);
+
+      stt = SEND_SUCCESS;
     }
+
+    if(stt == SEND_SUCCESS) digitalWrite(LED_STT_PIN, HIGH);
+    else digitalWrite(LED_STT_PIN, LOW);
 
     // Try again 1s later
     delay(1000);

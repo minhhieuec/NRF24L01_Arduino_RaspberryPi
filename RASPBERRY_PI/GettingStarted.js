@@ -76,6 +76,8 @@ function snd(do_sync) {
       if( ret == tmstp) process.stdout.write(" reponse matchs ");
       else process.stdout.write(" response does not match "+ ret + " != " + tmstp);
       console.log("| roundtrip took", (t[1] /1000).toFixed(0)," us");
+	  
+	  console.log(JSON.stringify(d))
     }
   },function(){ console.log("STOPPED!"); });
 
